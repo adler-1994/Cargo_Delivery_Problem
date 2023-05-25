@@ -5,8 +5,8 @@ import numpy as np
 import pandas as pd
 import math
 
-Num_Lorries_sample = 100000
-Case = "2019.4"
+Num_Lorries_sample = 150000
+Case = "2019.1"
 #Read the problem instance
 with open(Case + ".txt", 'r') as file:
     lines = file.readlines()
@@ -93,4 +93,6 @@ for i in range(Num_Lorries_sample):
 print(f"\Best Lorries sample is {best_index+1}: {samples[best_index][:]} with total distance of : {best_fitness}")
     
 
-#print(dist_matrix.values[(start-1)*num_cities_execl+end-1][2])  # distance between cities 
+# write result to a file
+with open(Case+"_RS.txt", "a") as file:
+    file.write(str(best_fitness) + "\n")

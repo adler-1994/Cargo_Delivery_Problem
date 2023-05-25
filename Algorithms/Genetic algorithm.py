@@ -11,7 +11,7 @@ from jmetal.util.observer import PrintObjectivesObserver
 
 from CDP import CDP 
 
-Case = "2019.1"
+Case = "481.5"
 #Read the problem instance
 with open(Case + ".txt", 'r') as file:
     lines = file.readlines()
@@ -45,8 +45,8 @@ if __name__ == "__main__":
           offspring_population_size=100,
           mutation=PermutationCDPMutation(0.03), 
           crossover=PMXCrossover(0.8),
-          population_evaluator=MultiprocessEvaluator(processes=4),
-          termination_criterion=StoppingByEvaluations(max_evaluations=100000),
+          #population_evaluator=MultiprocessEvaluator(processes=4),
+          termination_criterion=StoppingByEvaluations(max_evaluations=150000),
         )
     algorithm.observable.register(observer=PrintObjectivesObserver(1000))
     algorithm.run()
@@ -65,3 +65,6 @@ if __name__ == "__main__":
             print( "there are two similar number")
         seen.add(number)   
     """
+    # write result to a file
+    with open(Case+"_GA.txt", "a") as file:
+        file.write(str(result.objectives[0]) + "\n")

@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import math
 
-Case = "2019.1"
+Case = "481.5"
 #Read the problem instance
 with open(Case + ".txt", 'r') as file:
     lines = file.readlines()
@@ -132,3 +132,6 @@ for i in range(len(PICKUPS)):
               
 print(fitness)
 """
+# write result to a file
+with open(Case+"_GS.txt", "a") as file:
+    file.write(str(total_fitness) + "\n")

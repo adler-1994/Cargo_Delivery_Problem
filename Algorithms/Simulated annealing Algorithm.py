@@ -9,7 +9,7 @@ from jmetal.algorithm.singleobjective.simulated_annealing import SimulatedAnneal
 
 from CDP import CDP 
 
-Case = "2019.1"
+Case = "481.5"
 #Read the problem instance and chose pased on the problem
 #instance = pd.read_csv(r"481.csv")
 
@@ -63,4 +63,6 @@ if __name__ == "__main__":
         seen.add(number)   
   
     """
-
+    # write result to a file
+    with open(Case+"_SA.txt", "a") as file:
+          file.write(str(result.objectives[0]) + "\n")
