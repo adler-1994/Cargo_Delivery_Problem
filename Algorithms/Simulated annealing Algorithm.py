@@ -2,18 +2,16 @@
 
 import pandas as pd
 
-from jmetal.operator.mutation import PermutationCDPMutation
+from mutation import PermutationCDPMutation
 from jmetal.util.observer import PrintObjectivesObserver
 from jmetal.util.termination_criterion import StoppingByEvaluations
 from jmetal.algorithm.singleobjective.simulated_annealing import SimulatedAnnealing
 
 from CDP import CDP 
 
-Case = "481.5"
+Case = "481.3"
 #Read the problem instance and chose pased on the problem
 #instance = pd.read_csv(r"481.csv")
-
-#with open('481.1.txt', 'r') as file: # change to the defined problem
 with open(Case + ".txt", 'r') as file:
     lines = file.readlines()
 PICKUPS = list(map(int, lines[0].strip().split()))
@@ -41,7 +39,7 @@ if __name__ == "__main__":
     problem = CDP(instance, PICKUPS, DROPOFF, LORRIES,COMPANIES,COMPFARES,COMPLORRIES,COMPDISTEMPTY)
     algorithm = SimulatedAnnealing(
         problem=problem,
-        mutation= PermutationCDPMutation(0.03),
+        mutation= PermutationCDPMutation(0.01),
         termination_criterion=StoppingByEvaluations(max_evaluations=250000),
     )
     

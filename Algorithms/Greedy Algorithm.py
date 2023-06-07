@@ -30,12 +30,12 @@ PICKUPS1 = PICKUPS
 DROPOFF1 = DROPOFF 
 
 # sort the indexes of COMPANIES in desending order
-companies_lorries = list(zip(COMPANIES, COMPLORRIES, COMPDISTEMPTY,COMPFARES))       #  here a change
+companies_lorries = list(zip(COMPANIES, COMPLORRIES, COMPDISTEMPTY,COMPFARES))     
 sorted_companies_lorries = sorted(companies_lorries, key=lambda x: x[1], reverse=True)
 COMPANIES = [x[0] for x in sorted_companies_lorries]
 COMPLORRIES = [x[1] for x in sorted_companies_lorries]
-COMPDISTEMPTY = [x[2] for x in sorted_companies_lorries]    # here a change
-COMPFARES = [x[3] for x in sorted_companies_lorries]        # here a change
+COMPDISTEMPTY = [x[2] for x in sorted_companies_lorries]  
+COMPFARES = [x[3] for x in sorted_companies_lorries]        
 #print(COMPANIES)
 #print(COMPLORRIES)
 

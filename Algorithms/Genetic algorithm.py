@@ -4,14 +4,14 @@ import pandas as pd
 
 from jmetal.algorithm.singleobjective.genetic_algorithm import GeneticAlgorithm
 from jmetal.operator.crossover import PMXCrossover
-from jmetal.operator.mutation import PermutationCDPMutation
+from mutation import PermutationCDPMutation
 from jmetal.util.termination_criterion import StoppingByEvaluations
 from jmetal.util.evaluator import MultiprocessEvaluator
 from jmetal.util.observer import PrintObjectivesObserver
 
 from CDP import CDP 
 
-Case = "481.5"
+Case = "481.3"
 #Read the problem instance
 with open(Case + ".txt", 'r') as file:
     lines = file.readlines()
@@ -43,10 +43,10 @@ if __name__ == "__main__":
           problem=problem,  
           population_size=100,  
           offspring_population_size=100,
-          mutation=PermutationCDPMutation(0.03), 
-          crossover=PMXCrossover(0.8),
-          #population_evaluator=MultiprocessEvaluator(processes=4),
-          termination_criterion=StoppingByEvaluations(max_evaluations=150000),
+          mutation=PermutationCDPMutation(0.01), 
+          crossover=PMXCrossover(0.9),
+          population_evaluator=MultiprocessEvaluator(processes=4),
+          termination_criterion=StoppingByEvaluations(max_evaluations=250000),
         )
     algorithm.observable.register(observer=PrintObjectivesObserver(1000))
     algorithm.run()

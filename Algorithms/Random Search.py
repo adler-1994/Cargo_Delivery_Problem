@@ -5,8 +5,8 @@ import numpy as np
 import pandas as pd
 import math
 
-Num_Lorries_sample = 150000
-Case = "2019.1"
+Num_Lorries_sample = 150000 # number of random samples
+Case = "481.5"
 #Read the problem instance
 with open(Case + ".txt", 'r') as file:
     lines = file.readlines()
@@ -26,11 +26,11 @@ distance_matrix = np.empty(len(dist_matrix.values),dtype=np.float16)
 distance_matrix[:] = dist_matrix.iloc[:,2]  
 
 # sort the indexes of COMPANIES in desending order
-companies_lorries = list(zip(COMPANIES, COMPLORRIES, COMPDISTEMPTY,COMPFARES))       #  here a change
+companies_lorries = list(zip(COMPANIES, COMPLORRIES, COMPDISTEMPTY,COMPFARES))      
 sorted_companies_lorries = sorted(companies_lorries, key=lambda x: x[1], reverse=True)
 COMPANIES = [x[0] for x in sorted_companies_lorries]
 COMPLORRIES = [x[1] for x in sorted_companies_lorries]
-COMPDISTEMPTY = [x[2] for x in sorted_companies_lorries]    # here a change
+COMPDISTEMPTY = [x[2] for x in sorted_companies_lorries]   
 COMPFARES = [x[3] for x in sorted_companies_lorries]    
 #print(COMPANIES)
 #print(COMPLORRIES)

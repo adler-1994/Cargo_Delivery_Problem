@@ -1,14 +1,70 @@
 import math
 import random
 import numpy as np
+from abc import ABC, abstractmethod
+from typing import Generic, List, TypeVar
 
-from jmetal.core.problem import PermutationProblem
 from jmetal.core.solution import PermutationSolution
 
 """
  Problem: CDP : Cargo Delivery Problem
 """
+S = TypeVar("S")
 
+class Problem(Generic[S], ABC):
+    """Class representing problems."""
+
+    MINIMIZE = -1
+    MAXIMIZE = 1
+
+    def __init__(self):
+        #self.reference_front: List[S] = []
+
+        self.directions: List[int] = []
+        self.labels: List[str] = []
+
+    @abstractmethod
+    def number_of_variables(self) -> int:
+        pass
+
+    @abstractmethod
+    def number_of_objectives(self) -> int:
+        pass
+
+    @abstractmethod
+    def number_of_constraints(self) -> int:
+        pass
+
+    @abstractmethod
+    def create_solution(self) -> S:
+        """Creates a random_search solution to the problem.
+
+        :return: Solution."""
+        pass
+      
+    @abstractmethod
+    def evaluate(self, solution: S) -> S:
+        """Evaluate a solution. For any new problem inheriting from :class:`Problem`, this method should be replaced.
+        Note that this framework ASSUMES minimization, thus solutions must be evaluated in consequence.
+
+        :return: Evaluated solution."""
+        pass
+
+    @abstractmethod
+    def name(self) -> str:
+        pass
+
+class PermutationProblem(Problem[PermutationSolution], ABC):
+    """Class representing permutation problems."""
+
+    def __init__(self):
+        super(PermutationProblem, self).__init__()
+
+    def mutate(self, solution: S) -> S:
+        """Mutate the soulation to the problem.
+
+        :return: Solution."""
+    
 class CDP(PermutationProblem):
     
     def __init__(self, instance, PICKUPS, DROPOFF, LORRIES,COMPANIES: int = 0,
@@ -109,21 +165,22 @@ class CDP(PermutationProblem):
 
         return new_solution
     
-    def mutate(self, solution: PermutationSolution)-> PermutationSolution:
-        random_index = random.randint(0, len(self.PICKUPS)-1)
-        solution.variables[random_index]= -1
-        # check if vaild, if not make it valid 
-        while True:
-             random_Lorry = random.randint(self.LORRIES_indexs[0], self.LORRIES_indexs[-1])
-             index = next((d for d, val in enumerate(self.LORRIES_REFERENCE) if val >= random_Lorry), len(self.LORRIES_REFERENCE))
-             if random_Lorry in solution.variables:
-                 continue
-             elif index == 0:
-                 break   
-             elif self.distance_matrix[(self.LORRIES_TP[random_Lorry]-1)*self.number_of_cities+self.PICKUPS[random_index]-1] <= self.COMPDISTEMPTY[index-1]:
-                 break
-                
-        solution.variables[random_index] = random_Lorry
+    def mutate(self, probability, solution: PermutationSolution)-> PermutationSolution:      
+        for lorry_index in range(len(self.PICKUPS)): # fixed the problem of impossibility of mutating every gen in the chromosome
+            rand = random.random()
+            if rand <= probability: 
+                #solution.variables[random_index] = -1
+                # check if vaild, if not make it valid 
+                while True:
+                    random_Lorry = random.randint(self.LORRIES_indexs[0], self.LORRIES_indexs[-1])
+                    index = next((d for d, val in enumerate(self.LORRIES_REFERENCE) if val >= random_Lorry), len(self.LORRIES_REFERENCE))
+                    if random_Lorry in solution.variables:  # if the lorry already been chosen, try another one 
+                      continue
+                    elif index == 0:
+                      break   
+                    elif self.distance_matrix[(self.LORRIES_TP[random_Lorry]-1)*self.number_of_cities+self.PICKUPS[lorry_index]-1] <= self.COMPDISTEMPTY[index-1]:
+                      break    
+                solution.variables[lorry_index] = random_Lorry        
 
         return solution   
 
